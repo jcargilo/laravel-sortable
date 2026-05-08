@@ -65,7 +65,17 @@ trait Sortable
 
     protected static function bootSortable()
     {
-        static::observe(SortableObserver::class);
+        static::creating(function ($model) {
+            (new SortableObserver)->creating($model);
+        });
+
+        static::deleted(function ($model) {
+            (new SortableObserver)->deleted($model);
+        });
+
+        static::updating(function ($model) {
+            (new SortableObserver)->updating($model);
+        });
     }
 
     /**
